@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply h-full m-0 p-0;
+  }
+
+  #__next {
+    @apply h-full;
+  }
+
+  body {
+    @apply font-sans text-base antialiased bg-gradient-to-br from-emerald-50 to-teal-100 text-emerald-800;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white shadow-lg rounded-3xl p-4 transition-all duration-300 hover:shadow-xl;
+  }
+
+  .button {
+    @apply rounded-full transition-all duration-300;
+  }
+
+  .button-primary {
+    @apply bg-emerald-500 hover:bg-emerald-600 text-white shadow-md hover:shadow-lg;
+  }
+
+  .button-outline {
+    @apply border border-emerald-300 text-emerald-700 hover:bg-emerald-200 shadow-sm hover:shadow-md;
+  }
+
+  .nav-item {
+    @apply flex flex-col items-center p-2 rounded-full text-gray-600 transition-all duration-300;
+  }
+
+  .nav-item-active {
+    @apply text-emerald-600 bg-emerald-100 shadow-md;
+  }
+
+  .nav-bar {
+    @apply fixed bottom-0 left-0 right-0 flex justify-around items-center bg-white bg-opacity-90 backdrop-blur-md p-2 shadow-lg;
+  }
+
+  .dashboard-section,
+  .invest-section,
+  .settings-section,
+  .learn-section {
+    @apply bg-white bg-opacity-70 backdrop-blur-lg rounded-2xl p-6 shadow-lg transition-all duration-300 hover:shadow-xl;
+  }
+
+  .dashboard-header,
+  .invest-header,
+  .settings-header,
+  .learn-header {
+    @apply text-2xl font-bold text-emerald-700 mb-4;
+  }
+
+  .dashboard-grid,
+  .invest-grid,
+  .settings-grid,
+  .learn-grid {
+    @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .invest-chart {
+    @apply bg-white p-4 rounded-xl shadow-md;
+  }
+
+  .settings-option {
+    @apply flex items-center justify-between p-3 bg-white rounded-lg shadow-sm;
+  }
+
+  .learn-module {
+    @apply bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-400;
+  }
+
+  .glassmorphism {
+    @apply bg-white bg-opacity-20 backdrop-blur-lg rounded-3xl border border-white border-opacity-30 shadow-lg;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+}
+
+:root {
+  --background: 236 253 245;
+  --foreground: 6 78 59;
+}
+
+.dark {
+  --background: 31 41 55;
+  --foreground: 167 243 208;
+}
+
+.dark .card,
+.dark .dashboard-section,
+.dark .invest-section,
+.dark .settings-section,
+.dark .learn-section,
+.dark .invest-chart,
+.dark .settings-option,
+.dark .learn-module {
+  background-color: rgba(55, 65, 81, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.dark .button-outline {
+  border-color: rgb(110 231 183);
+  color: rgb(110 231 183);
+}
+
+.dark .button-outline:hover {
+  background-color: rgba(17, 24, 39, 0.6);
+}
+
+.dark .nav-bar {
+  background-color: rgba(31, 41, 55, 0.9);
+}
+
+.dark .nav-item {
+  color: rgb(110 231 183);
+}
+
+.dark .nav-item-active {
+  color: rgb(167 243 208);
+  background-color: rgba(6, 78, 59, 0.3);
+}
+
+.dark .dashboard-header,
+.dark .invest-header,
+.dark .settings-header,
+.dark .learn-header {
+  color: rgb(167 243 208);
+}

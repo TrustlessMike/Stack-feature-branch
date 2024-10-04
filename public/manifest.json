@@ -1,0 +1,17 @@
+{
+  "name": "Stack",
+  "short_name": "Stack",
+  "icons": [
+    {
+      "src": "https://your-domain.com/images/crypto-icons/btc.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#F7931A",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
