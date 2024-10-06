@@ -3,7 +3,11 @@ import { ArrowRight } from 'lucide-react';
 import { useWeb3Auth } from '../context/Web3AuthContext';
 import { useRouter } from 'next/navigation';
 
-export default function Hero() {
+interface HeroProps {
+  onNavigate: (path: string) => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const { web3auth, isLoading, error } = useWeb3Auth();
   const router = useRouter();
 
@@ -50,4 +54,4 @@ export default function Hero() {
       </button>
     </section>
   );
-}
+};
