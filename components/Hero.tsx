@@ -55,3 +55,5 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     </section>
   );
 };
+
+export default Hero;  // Make sure this line is present

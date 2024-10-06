@@ -9,7 +9,7 @@ import CTA from '@/components/CTA';
 import Footer from '@/components/Footer';
 import AddToHomeScreen from '@/components/AddToHomescreen';
 
-export default function WelcomePage() {
+const Page = () => {
   const router = useRouter();
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -150,4 +150,6 @@ export default function WelcomePage() {
       <Footer />
     </div>
   );
-}
+};
+
+export default Page;
