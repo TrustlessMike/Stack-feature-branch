@@ -23,7 +23,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
     try {
       console.log("Attempting to connect...");
-      await web3auth.connectTo(WALLET_ADAPTERS.TORUS_SOLANA);
+      await web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN);
       const solanaWallet = await getSolanaWallet();
       if (solanaWallet != null) {
         console.log("Successfully connected to Web3Auth and got Solana wallet");
