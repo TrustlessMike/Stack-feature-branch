@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { WALLET_ADAPTERS } from '@web3auth/base'; // Updated import path
 import { getSolanaWallet } from '@/lib/config/solanaWalletUtils'; // Updated import path
 
+
 interface HeroProps {
   onNavigate: (path: string) => void;
 }
@@ -22,7 +23,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
     try {
       console.log("Attempting to connect...");
-      await web3auth.connectTo(WALLET_ADAPTERS.AUTH);
+      await web3auth.connectTo(WALLET_ADAPTERS.TORUS_SOLANA);
       const solanaWallet = await getSolanaWallet();
       if (solanaWallet != null) {
         console.log("Successfully connected to Web3Auth and got Solana wallet");
