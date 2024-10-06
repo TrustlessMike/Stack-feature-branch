@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "tailwind": "tailwindcss -i ./styles/globals.css -o ./styles/output.css"
+    "tailwind": "tailwindcss -i ./styles/globals.css -o ./styles/output.css",
+    "rebuild": "your rebuild command here"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.0",
@@ -22,6 +23,10 @@
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/ssr": "^0.5.1",
+    "@web3auth/base": "^7.0.4",
+    "@web3auth/modal": "^7.0.4",
+    "@web3auth/openlogin-adapter": "^7.0.4",
+    "@web3auth/solana-provider": "^7.0.4",
     "chart.js": "^4.4.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -42,7 +47,7 @@
     "@next/eslint-plugin-next": "^14.2.13",
     "@supabase/supabase-js": "^2.45.4",
     "@types/node": "^20.0.0",
-    "@types/react": "^18.3.10",
+    "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
     "@types/tailwindcss": "^3.0.11",

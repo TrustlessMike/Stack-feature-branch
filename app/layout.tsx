@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { ReactNode } from 'react';
 import NavigationBar from '@/components/NavigationBar';
 import { DarkModeProvider } from '../context/DarkModeContext';
+import { Web3AuthProvider } from '../context/Web3AuthContext';
 
 export const metadata: Metadata = {
   title: 'Stack',
@@ -54,10 +55,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
-        <DarkModeProvider>
-          <NavigationBar />
-          {children}
-        </DarkModeProvider>
+        <Web3AuthProvider>
+          <DarkModeProvider>
+            <NavigationBar />
+            {children}
+          </DarkModeProvider>
+        </Web3AuthProvider>
       </body>
     </html>
   );

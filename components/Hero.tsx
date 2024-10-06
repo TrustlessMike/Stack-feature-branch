@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import SignUpModal from './SignUpModal';
+import { useWeb3Auth } from '../context/Web3AuthContext';
+import { useRouter } from 'next/navigation';
 
-interface HeroProps {
-  onNavigate?: (path: string) => void;
-}
+export default function Hero() {
+  const { web3auth, isLoading, error } = useWeb3Auth();
+  const router = useRouter();
 
-export default function Hero({
-  onNavigate = (path: string) => console.log(`Navigate to: ${path}`),
-}: HeroProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleGetStarted = async () => {
+    console.log("Get Started clicked. Web3Auth state:", web3auth);
+    if (!web3auth) {
+      console.error("Web3Auth not initialized");
+      return;
+    }
 
-  const handleSignUp = (email: string) => {
-    console.log('Signing up with email:', email);
-    // Implement sign up logic here
-    onNavigate('/signup');
-  };
-
-  const handleSocialSignIn = (provider: string) => {
-    console.log('Signing in with provider:', provider);
-    // Implement social sign in logic here
-    onNavigate('/signup');
+    try {
+      console.log("Attempting to connect...");
+      await web3auth.connect();
+      const solanaWallet = await getSolanaWallet();
+      if (solanaWallet) {
+        console.log("Successfully connected to Web3Auth and got Solana wallet");
+        router.push('/signup/Intro');
+      } else {
+        console.log("Connection failed: No wallet returned");
+      }
+    } catch (error) {
+      console.error("Error connecting to Web3Auth:", error);
+    }
   };
 
   return (
@@ -33,18 +39,15 @@ export default function Hero({
         Join thousands of people using Stack to invest smarter, save
         effortlessly, and grow their financial future.
       </p>
+      {error && <p className="text-red-500 mb-4">Error: {error}</p>}
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={handleGetStarted}
         className="px-6 py-3 text-lg font-semibold text-white bg-green-600 rounded-full shadow-lg flex items-center justify-center hover:bg-green-700 transition-colors"
+        disabled={isLoading || !web3auth}
       >
-        Get Started <ArrowRight className="ml-2 w-5 h-5" />
+        {isLoading ? 'Loading...' : 'Get Started'} 
+        {!isLoading && <ArrowRight className="ml-2 w-5 h-5" />}
       </button>
-      <SignUpModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSignUp={handleSignUp}
-        onSocialSignIn={handleSocialSignIn}
-      />
     </section>
   );
 }
