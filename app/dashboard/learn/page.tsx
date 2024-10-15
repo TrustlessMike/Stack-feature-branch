@@ -4,8 +4,9 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, BookOpen, Play, FileText } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar } from '@/components/ui/avatar';
 import Link from 'next/link';
+import TopBar from '@/components/Topbar';
 
 const learningModules = [
   {
@@ -36,18 +37,10 @@ const learningModules = [
 
 export default function LearnPage() {
   return (
-    <div className="bg-gradient-to-br from-emerald-50 to-teal-100 min-h-screen p-4">
-      <header className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-2">
-          <Avatar className="w-10 h-10">
-            <AvatarImage src="/placeholder-avatar.jpg" alt="User" />
-            <AvatarFallback>U</AvatarFallback>
-          </Avatar>
-          <h1 className="text-2xl font-bold text-emerald-800">Learn</h1>
-        </div>
-      </header>
+    <div className="bg-gradient-to-br from-emerald-50 to-teal-100 min-h-screen">
+      <TopBar />
       
-      <main>
+      <main className="p-4">
         <h2 className="text-2xl font-bold text-emerald-700 mb-4">
           Continue Learning
         </h2>

@@ -2,18 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Search,
-  ChevronRight,
-  Home,
-  TrendingUp,
-  BookOpen,
-  Settings,
-} from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -25,6 +17,7 @@ import {
   Tooltip,
   Filler,
 } from 'chart.js';
+import TopBar from '@/components/Topbar';
 
 ChartJS.register(
   CategoryScale,
@@ -77,13 +70,6 @@ const chartData = {
   ],
 };
 
-const tabs = [
-  { name: 'Home', href: '/dashboard', icon: Home },
-  { name: 'Invest', href: '/dashboard/invest', icon: TrendingUp },
-  { name: 'Learn', href: '/dashboard/learn', icon: BookOpen },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
-];
-
 interface CryptoPrice {
   name: string;
   symbol: string;
@@ -94,7 +80,6 @@ interface CryptoPrice {
 
 export default function RobustInvestmentDashboard() {
   const [timePeriod, setTimePeriod] = useState<keyof typeof chartData>('1M');
-  const pathname = usePathname();
   const router = useRouter();
   const [cryptoPrices, setCryptoPrices] = useState<CryptoPrice[]>([]);
 
@@ -195,25 +180,11 @@ export default function RobustInvestmentDashboard() {
 
   return (
     <div className="bg-emerald-50 min-h-screen">
-      <header className="bg-emerald-600 text-white p-4 flex justify-between items-center rounded-b-3xl shadow-md">
-        <div className="flex items-center space-x-2">
-          <Avatar>
-            <AvatarImage src="/placeholder-avatar.jpg" alt="User" />
-            <AvatarFallback>U</AvatarFallback>
-          </Avatar>
-          <h1 className="text-xl font-bold">Dashboard</h1>
-        </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-white hover:bg-emerald-700 rounded-full"
-        >
-          <Search className="w-5 h-5" />
-          <span className="sr-only">Search</span>
-        </Button>
-      </header>
+      <div className="w-full fixed top-0 left-0 z-50">
+        <TopBar />
+      </div>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 pt-20">
         <Card className="mb-6 rounded-3xl shadow-lg">
           <CardContent className="p-6">
             <h2 className="text-3xl font-bold text-emerald-700 mb-2">
@@ -321,24 +292,6 @@ export default function RobustInvestmentDashboard() {
           </CardContent>
         </Card>
       </main>
-
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-emerald-200 p-2 flex justify-around items-center rounded-t-3xl shadow-lg">
-        {tabs.map((tab) => {
-          const isActive = pathname === tab.href;
-          return (
-            <Link
-              key={tab.name}
-              href={tab.href}
-              className={`flex flex-col items-center p-2 rounded-full ${
-                isActive ? 'text-emerald-600' : 'text-gray-600'
-              }`}
-            >
-              <tab.icon className="w-6 h-6" />
-              <span className="text-xs mt-1">{tab.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
     </div>
   );
 }
