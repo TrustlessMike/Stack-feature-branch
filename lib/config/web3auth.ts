@@ -26,21 +26,19 @@ export const initWeb3Auth = async (): Promise<Web3Auth | null> => {
     });
 
     const web3AuthOptions = {
-      clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID || "YOUR_CLIENT_ID", // Replace with your actual client ID
+      clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID || "", // Use an empty string as fallback
       chainConfig,
-      web3AuthNetwork: "testnet",
-      privateKeyProvider, // Required by Web3AuthOptions
+      web3AuthNetwork: "testnet" as const,
+      privateKeyProvider,
     };
+
     // Initialize Web3Auth
-    web3auth = new Web3Auth({
-      ...web3AuthOptions,
-      web3AuthNetwork: web3AuthOptions.web3AuthNetwork as "testnet" | "cyan" | "aqua" | "celeste" | "sapphire_devnet" | "sapphire_mainnet",
-    });
+    web3auth = new Web3Auth(web3AuthOptions);
 
     // Configure OpenloginAdapter before initializing Web3Auth modal
     const openloginAdapter = new OpenloginAdapter({
       adapterSettings: {
-        network: "testnet", // Set the Openlogin network to "testnet"
+        network: "testnet",
         uxMode: "popup",
         loginConfig: {
           // Optional: Add your login methods here, e.g., Google, Facebook, etc.
@@ -48,10 +46,10 @@ export const initWeb3Auth = async (): Promise<Web3Auth | null> => {
       },
     });
     // Add adapter configuration to Web3Auth
-    web3auth.configureAdapter(openloginAdapter as any);
+    web3auth.configureAdapter(openloginAdapter);
 
     console.log("Web3Auth instance created, initializing modal...");
-    await web3auth.initModal(); // Initialize Web3Auth modal after configuring adapter
+    await web3auth.initModal();
     console.log("Web3Auth modal initialized successfully");
 
     return web3auth;
