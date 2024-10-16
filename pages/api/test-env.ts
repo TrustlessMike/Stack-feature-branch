@@ -6,7 +6,6 @@ export default function handler(
 ) {
   res.status(200).json({ 
     clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID,
-    nodeEnv: process.env.NODE_ENV,
-    allEnv: process.env
+    nodeEnv: process.env.NODE_ENV
   })
 }
