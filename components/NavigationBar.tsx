@@ -39,7 +39,8 @@ const NavigationBar: React.FC = () => {
     }
   }, [pathname]);
 
-  if (!pathname.startsWith('/dashboard')) {
+  // Add this null check before using pathname
+  if (!pathname?.startsWith('/dashboard')) {
     return null;
   }
 
