@@ -33,11 +33,10 @@ const NavigationBar: React.FC = () => {
 
   useEffect(() => {
     // Check if the current path is within the dashboard
-    const isDashboard = pathname.startsWith('/dashboard');
+    const isDashboard = pathname?.startsWith('/dashboard') ?? false;
     if (!isDashboard) {
       // Handle non-dashboard case if needed
     }
-    // No return statement needed
   }, [pathname]);
 
   if (!pathname.startsWith('/dashboard')) {
