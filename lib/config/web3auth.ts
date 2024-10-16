@@ -10,8 +10,10 @@ export const initWeb3Auth = async (): Promise<Web3Auth | null> => {
     console.log("Starting Web3Auth initialization...");
 
     const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID;
+    console.log("Client ID:", clientId); // For debugging
+
     if (!clientId) {
-      throw new Error("NEXT_PUBLIC_WEB3AUTH_CLIENT_ID is not set in environment variables");
+      throw new Error("Web3Auth Client ID is not set in environment variables");
     }
 
     // Solana Testnet Configuration
