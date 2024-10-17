@@ -1,9 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  env: {
-    NEXT_PUBLIC_WEB3AUTH_CLIENT_ID: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID,
-  },
+  swcMinify: true,
+  // Add this line to disable automatic static optimization for API routes
+  experimental: {
+    disableOptimizedLoading: true
+  }
 };
 
 module.exports = nextConfig;
