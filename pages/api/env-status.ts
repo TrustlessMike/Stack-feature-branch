@@ -7,6 +7,7 @@ export default function handler(
   const clientIdStatus = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID ? 'Set' : 'Not set';
   res.status(200).json({ 
     clientIdStatus,
-    nodeEnv: process.env.NODE_ENV
+    nodeEnv: process.env.NODE_ENV,
+    timestamp: new Date().toISOString()
   })
 }
