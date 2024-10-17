@@ -21,8 +21,10 @@ export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const initializeWeb3Auth = useCallback(async () => {
     try {
       setIsLoading(true);
+      console.log("Starting Web3Auth initialization...");
+      
       const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID;
-      console.log("Web3Auth Client ID:", clientId); // Log the client ID
+      console.log("Client ID:", clientId); // Make sure to remove this in production
 
       if (!clientId) {
         throw new Error("Web3Auth Client ID is not set in environment variables");
@@ -36,7 +38,9 @@ export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           rpcTarget: 'https://rpc.ankr.com/solana',
         },
         uiConfig: {
-          theme: 'dark',
+          theme: {
+            primary: '#000000',
+          },
           loginMethodsOrder: ['google', 'facebook']
         }
       });
@@ -47,7 +51,7 @@ export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
       setWeb3auth(web3authInstance);
     } catch (error) {
-      console.error("Error initializing Web3Auth:", error);
+      console.error("Detailed error in initializing Web3Auth:", error);
       setError('Failed to initialize Web3Auth: ' + (error instanceof Error ? error.message : String(error)));
     } finally {
       setIsLoading(false);
