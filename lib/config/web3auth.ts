@@ -9,61 +9,39 @@ export const initWeb3Auth = async (): Promise<Web3Auth | null> => {
   try {
     console.log("Starting Web3Auth initialization...");
     
-    const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID;
-    console.log("Client ID status:", clientId ? 'Set' : 'Not set');
+    const response = await fetch('/api/get-web3auth-config');
+    const { clientId } = await response.json();
 
     if (!clientId) {
-      console.error("Client ID is not set. Checking server-side...");
-      const response = await fetch('/api/stack-env-check');
-      const data = await response.json();
-      console.log("Server-side environment check:", data);
       throw new Error("Web3Auth Client ID is not set in environment variables");
     }
 
-    // Solana Testnet Configuration
-    const chainConfig = {
-      chainNamespace: CHAIN_NAMESPACES.SOLANA,
-      chainId: "0x2", // Solana Testnet
-      rpcTarget: "https://api.testnet.solana.com",
-      displayName: "Solana Testnet",
-      blockExplorer: "https://explorer.solana.com",
-      ticker: "SOL",
-      tickerName: "Solana",
-    };
+    // Use clientId for Web3Auth initialization
+    // ... (rest of your initialization code)
 
-    // Initialize the SolanaPrivateKeyProvider
-    const privateKeyProvider = new SolanaPrivateKeyProvider({
-      config: { chainConfig },
-    });
-
-    const web3AuthOptions = {
+    // Create and initialize Web3Auth instance
+    web3auth = new Web3Auth({
       clientId,
-      chainConfig,
-      web3AuthNetwork: "testnet" as const,
-      privateKeyProvider,
-    };
-
-    // Initialize Web3Auth
-    web3auth = new Web3Auth(web3AuthOptions);
-
-    // Configure OpenloginAdapter before initializing Web3Auth modal
-    const openloginAdapter = new OpenloginAdapter({
-      adapterSettings: {
-        network: "testnet",
-        uxMode: "popup",
-        loginConfig: {
-          // Optional: Add your login methods here, e.g., Google, Facebook, etc.
-        },
+      chainConfig: {
+        chainNamespace: CHAIN_NAMESPACES.SOLANA,
+        chainId: "0x1", // This is the chainId for Solana mainnet
+        rpcTarget: "https://api.mainnet-beta.solana.com", // RPC endpoint for Solana
       },
     });
-    // Add adapter configuration to Web3Auth
+
+    const openloginAdapter = new OpenloginAdapter({
+      adapterSettings: {
+        network: "mainnet",
+      },
+    });
+
     web3auth.configureAdapter(openloginAdapter);
 
-    console.log("Web3Auth instance created, initializing modal...");
     await web3auth.initModal();
-    console.log("Web3Auth modal initialized successfully");
 
+    console.log("Web3Auth initialized successfully");
     return web3auth;
+
   } catch (error) {
     console.error("Error in initWeb3Auth:", error);
     throw error;
