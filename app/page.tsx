@@ -12,12 +12,8 @@ import AddToHomeScreen from '@/components/AddToHomescreen';
 const Page = () => {
   const router = useRouter();
   const [isAppInstalled, setIsAppInstalled] = useState(false);
+  const [showWeb3Auth, setShowWeb3Auth] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const handleNavigation = (path: string) => {
-    console.log(`Navigating to: ${path}`);
-    router.push(path);
-  };
 
   useEffect(() => {
     // Check if the app is already installed
@@ -131,6 +127,10 @@ const Page = () => {
     setIsAppInstalled(true);
   };
 
+  const handleGetStarted = () => {
+    setShowWeb3Auth(true);
+  };
+
   return (
     <div className="min-h-screen relative">
       <canvas
@@ -141,7 +141,7 @@ const Page = () => {
         <AddToHomeScreen onClose={handleAppInstalled} />
       ) : (
         <main className="relative z-10 max-w-4xl mx-auto px-4 py-8">
-          <Hero onNavigate={handleNavigation} />
+          <Hero onGetStarted={handleGetStarted} showWeb3Auth={showWeb3Auth} />
           <Features />
           <Testimonials />
           <CTA />
