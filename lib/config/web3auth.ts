@@ -14,7 +14,7 @@ export const initWeb3Auth = async (): Promise<Web3Auth | null> => {
 
     if (!clientId) {
       console.error("Client ID is not set. Checking server-side...");
-      const response = await fetch('/api/debug-env');
+      const response = await fetch('/api/check-environment');
       const data = await response.json();
       console.log("Server-side environment check:", data);
       throw new Error("Web3Auth Client ID is not set in environment variables");
