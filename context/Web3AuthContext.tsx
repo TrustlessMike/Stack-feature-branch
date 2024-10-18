@@ -1,6 +1,6 @@
 'use client';  // Add this line at the top of the file
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Web3Auth } from '@web3auth/modal';
 import { CHAIN_NAMESPACES } from '@web3auth/base';
 
@@ -8,59 +8,44 @@ interface Web3AuthContextType {
   web3auth: Web3Auth | null;
   isLoading: boolean;
   error: string | null;
-  initializeWeb3Auth: () => Promise<void>;
 }
 
 const Web3AuthContext = createContext<Web3AuthContextType | undefined>(undefined);
 
 export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const initializeWeb3Auth = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      console.log("Starting Web3Auth initialization...");
-      
-      // Use WEB3AUTH_CLIENT_ID if NEXT_PUBLIC_WEB3AUTH_CLIENT_ID is not available
-      const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID || process.env.WEB3AUTH_CLIENT_ID;
-      console.log("Client ID:", clientId);
-
-      if (!clientId) {
-        throw new Error("Web3Auth Client ID is not set in environment variables");
-      }
-
-      const web3authInstance = new Web3Auth({
-        clientId,
-        chainConfig: {
-          chainNamespace: CHAIN_NAMESPACES.SOLANA,
-          chainId: "0x3", // This is the chainId for Solana Devnet
-          rpcTarget: "https://api.devnet.solana.com", // Solana Devnet RPC URL
-        },
-        uiConfig: {
-          theme: {
-            primary: '#000000',
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const web3auth = new Web3Auth({
+          clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
+          web3AuthNetwork: "testnet",
+          chainConfig: {
+            chainNamespace: CHAIN_NAMESPACES.SOLANA,
+            chainId: "0x3", // Devnet
+            rpcTarget: "https://api.devnet.solana.com",
           },
-          loginMethodsOrder: ['google', 'facebook']
-        }
-      });
+        });
 
-      console.log("Web3Auth instance created, initializing modal...");
-      await web3authInstance.initModal();
-      console.log("Web3Auth modal initialized successfully");
+        await web3auth.initModal();
+        console.log("Web3Auth initialized successfully");
+        setWeb3auth(web3auth);
+      } catch (error) {
+        console.error("Error initializing Web3Auth:", error);
+        setError("Failed to initialize Web3Auth");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-      setWeb3auth(web3authInstance);
-    } catch (error) {
-      console.error("Detailed error in initializing Web3Auth:", error);
-      setError('Failed to initialize Web3Auth: ' + (error instanceof Error ? error.message : String(error)));
-    } finally {
-      setIsLoading(false);
-    }
+    init();
   }, []);
 
   return (
-    <Web3AuthContext.Provider value={{ web3auth, isLoading, error, initializeWeb3Auth }}>
+    <Web3AuthContext.Provider value={{ web3auth, isLoading, error }}>
       {children}
     </Web3AuthContext.Provider>
   );

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
   return (props: any) => {
@@ -11,7 +11,7 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
       if (!isAuthenticated) {
         router.push('/');
       }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, router]);
 
     if (!isAuthenticated) {
       return null; // or a loading spinner

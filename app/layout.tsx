@@ -1,9 +1,7 @@
 import '@/styles/globals.css';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
-import NavigationBar from '@/components/NavigationBar';
-import { DarkModeProvider } from '../context/DarkModeContext';
-import { Web3AuthProvider } from '../context/Web3AuthContext';
+import { Web3AuthProvider } from '@/context/Web3AuthContext';
 import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata: Metadata = {
@@ -62,10 +60,7 @@ export default function RootLayout({
       <body>
         <Web3AuthProvider>
           <AuthProvider>
-            <DarkModeProvider>
-              <NavigationBar />
-              {children}
-            </DarkModeProvider>
+            {children}
           </AuthProvider>
         </Web3AuthProvider>
       </body>

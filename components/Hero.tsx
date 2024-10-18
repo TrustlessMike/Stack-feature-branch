@@ -1,49 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { useWeb3Auth } from '../context/Web3AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { WALLET_ADAPTERS } from '@web3auth/base';
-import { getSolanaWallet } from '@/lib/config/solanaWalletUtils';
 
 interface HeroProps {
   onGetStarted: () => void;
-  showWeb3Auth: boolean;
 }
 
-const Hero: React.FC<HeroProps> = ({ onGetStarted, showWeb3Auth }) => {
-  const { web3auth, isLoading, error, initializeWeb3Auth } = useWeb3Auth();
+const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleGetStarted = async () => {
-    console.log("Get Started clicked, showWeb3Auth:", showWeb3Auth);
-    onGetStarted(); // This will set showWeb3Auth to true in the parent component
+    if (isLoading) return;
 
-    if (showWeb3Auth) {
-      console.log("Attempting to initialize Web3Auth...");
-      if (!web3auth) {
-        try {
-          await initializeWeb3Auth();
-          console.log("Web3Auth initialized successfully");
-        } catch (error) {
-          console.error("Error initializing Web3Auth:", error);
-          return;
-        }
-      }
-      
-      try {
-        console.log("Attempting to connect to Web3Auth...");
-        await web3auth?.connectTo(WALLET_ADAPTERS.OPENLOGIN);
-        console.log("Connected to Web3Auth successfully");
-        const solanaWallet = await getSolanaWallet();
-        if (solanaWallet !== null) {
-          console.log("Solana wallet obtained, navigating to Intro...");
-          router.push('/signup/Intro');
-        } else {
-          console.log("Connection failed: No wallet returned");
-        }
-      } catch (error) {
-        console.error("Error connecting to Web3Auth:", error);
-      }
+    setIsLoading(true);
+    try {
+      console.log("Calling login function");
+      await login();
+    } catch (error) {
+      console.error('Login failed:', error);
+      // Show an error message to the user
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,7 +35,6 @@ const Hero: React.FC<HeroProps> = ({ onGetStarted, showWeb3Auth }) => {
       <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
         Join thousands of people using Stack to invest smarter, save effortlessly, and grow their financial future.
       </p>
-      {error && <p className="text-red-500 mb-4">Error: {error}</p>}
       <button
         onClick={handleGetStarted}
         className="px-6 py-3 text-lg font-semibold text-white bg-green-600 rounded-full shadow-lg flex items-center justify-center hover:bg-green-700 transition-colors"

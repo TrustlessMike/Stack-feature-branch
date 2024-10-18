@@ -19,14 +19,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (web3auth) {
-        try {
-          const user = await web3auth.getUserInfo();
-          setIsAuthenticated(!!user);
-        } catch (error) {
-          console.error("Error checking authentication:", error);
-          setIsAuthenticated(false);
-        }
+      if (web3auth && web3auth.connected) {
+        setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
       }
@@ -36,14 +30,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [web3auth]);
 
   const login = async () => {
+    console.log("Login function called");
     if (web3auth) {
+      console.log("Web3Auth instance exists");
       try {
+        console.log("Attempting to connect...");
         await web3auth.connect();
+        console.log("Connected successfully");
         setIsAuthenticated(true);
         router.push('/dashboard');
       } catch (error) {
         console.error("Login error:", error);
+        setIsAuthenticated(false);
       }
+    } else {
+      console.error("Web3Auth not initialized");
     }
   };
 
