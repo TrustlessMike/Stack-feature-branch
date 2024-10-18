@@ -1,5 +1,7 @@
+'use client';
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useWeb3Auth } from './Web3AuthContext';
 
 interface AuthContextType {
@@ -17,7 +19,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (web3auth && web3auth.connected) {
+      if (web3auth && await web3auth.isLoggedIn()) {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
@@ -31,7 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (web3auth) {
       await web3auth.connect();
       setIsAuthenticated(true);
-      router.push('/dashboard'); // Redirect to dashboard after login
+      router.push('/dashboard');
     }
   };
 
@@ -39,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (web3auth) {
       await web3auth.logout();
       setIsAuthenticated(false);
-      router.push('/'); // Redirect to home page after logout
+      router.push('/');
     }
   };
 

@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext'; // Adjust the import path as needed
+import { useAuth } from '@/context/AuthContext';
 import TopBar from '@/components/Topbar';
 
 export default function DashboardLayout({
