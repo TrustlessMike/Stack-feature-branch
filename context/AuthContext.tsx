@@ -41,6 +41,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         router.push('/dashboard');
       } catch (error) {
         console.error("Login error:", error);
+        if (error instanceof Error) {
+          console.error("Error message:", error.message);
+          console.error("Error stack:", error.stack);
+        }
         setIsAuthenticated(false);
       }
     } else {

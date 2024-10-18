@@ -20,6 +20,8 @@ export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     const init = async () => {
       console.log("Initializing Web3Auth...");
+      console.log("NEXT_PUBLIC_WEB3AUTH_CLIENT_ID:", process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID);
+      console.log("Current URL:", window.location.href);
       try {
         const web3auth = new Web3Auth({
           clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
