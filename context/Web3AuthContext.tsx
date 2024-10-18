@@ -22,10 +22,10 @@ export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       try {
         const web3auth = new Web3Auth({
           clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
-          web3AuthNetwork: "testnet", // Make sure this is set to "testnet"
+          web3AuthNetwork: "testnet",
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.SOLANA,
-            chainId: "0x3", // This is correct for Solana devnet
+            chainId: "0x3", // Solana Devnet
             rpcTarget: "https://api.devnet.solana.com",
           },
         });
