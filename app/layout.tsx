@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import NavigationBar from '@/components/NavigationBar';
 import { DarkModeProvider } from '../context/DarkModeContext';
 import { Web3AuthProvider } from '../context/Web3AuthContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata: Metadata = {
   title: 'Stack',
@@ -38,7 +39,11 @@ export const viewport = {
   themeColor: '#F7931A',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <head>
@@ -56,10 +61,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <Web3AuthProvider>
-          <DarkModeProvider>
-            <NavigationBar />
-            {children}
-          </DarkModeProvider>
+          <AuthProvider>
+            <DarkModeProvider>
+              <NavigationBar />
+              {children}
+            </DarkModeProvider>
+          </AuthProvider>
         </Web3AuthProvider>
       </body>
     </html>
