@@ -16,12 +16,13 @@ const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
     if (isLoading) return;
 
     setIsLoading(true);
+    console.log("Get Started clicked");
     try {
       console.log("Calling login function");
       await login();
+      console.log("Login function completed");
     } catch (error) {
       console.error('Login failed:', error);
-      // Show an error message to the user
     } finally {
       setIsLoading(false);
     }

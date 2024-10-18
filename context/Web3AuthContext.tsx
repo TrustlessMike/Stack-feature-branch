@@ -19,22 +19,26 @@ export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     const init = async () => {
+      console.log("Initializing Web3Auth...");
       try {
         const web3auth = new Web3Auth({
           clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
           web3AuthNetwork: "testnet",
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.SOLANA,
-            chainId: "0x3", // Solana Devnet
+            chainId: "0x3",
             rpcTarget: "https://api.devnet.solana.com",
           },
         });
+        console.log("Web3Auth instance created");
 
         await web3auth.initModal();
-        console.log("Web3Auth initialized successfully");
+        console.log("Web3Auth modal initialized");
+
         setWeb3auth(web3auth);
+        console.log("Web3Auth set in state");
       } catch (error) {
-        console.error("Error initializing Web3Auth:", error);
+        console.error("Error in Web3Auth initialization:", error);
         setError("Failed to initialize Web3Auth");
       } finally {
         setIsLoading(false);
