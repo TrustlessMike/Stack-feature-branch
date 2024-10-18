@@ -23,8 +23,9 @@ export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       setIsLoading(true);
       console.log("Starting Web3Auth initialization...");
       
-      const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID;
-      console.log("Client ID:", clientId); // Make sure to remove this in production
+      // Use WEB3AUTH_CLIENT_ID if NEXT_PUBLIC_WEB3AUTH_CLIENT_ID is not available
+      const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID || process.env.WEB3AUTH_CLIENT_ID;
+      console.log("Client ID:", clientId);
 
       if (!clientId) {
         throw new Error("Web3Auth Client ID is not set in environment variables");
