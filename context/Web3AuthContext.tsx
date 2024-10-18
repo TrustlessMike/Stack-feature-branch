@@ -35,8 +35,8 @@ export const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         clientId,
         chainConfig: {
           chainNamespace: CHAIN_NAMESPACES.SOLANA,
-          chainId: '0x1', // Make sure this is correct for Solana
-          rpcTarget: 'https://rpc.ankr.com/solana',
+          chainId: "0x3", // This is the chainId for Solana Devnet
+          rpcTarget: "https://api.devnet.solana.com", // Solana Devnet RPC URL
         },
         uiConfig: {
           theme: {
