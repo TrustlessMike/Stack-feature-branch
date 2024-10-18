@@ -19,8 +19,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (web3auth && await web3auth.isLoggedIn()) {
-        setIsAuthenticated(true);
+      if (web3auth) {
+        try {
+          const user = await web3auth.getUserInfo();
+          setIsAuthenticated(!!user);
+        } catch (error) {
+          console.error("Error checking authentication:", error);
+          setIsAuthenticated(false);
+        }
       } else {
         setIsAuthenticated(false);
       }
@@ -31,17 +37,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async () => {
     if (web3auth) {
-      await web3auth.connect();
-      setIsAuthenticated(true);
-      router.push('/dashboard');
+      try {
+        await web3auth.connect();
+        setIsAuthenticated(true);
+        router.push('/dashboard');
+      } catch (error) {
+        console.error("Login error:", error);
+      }
     }
   };
 
   const logout = async () => {
     if (web3auth) {
-      await web3auth.logout();
-      setIsAuthenticated(false);
-      router.push('/');
+      try {
+        await web3auth.logout();
+        setIsAuthenticated(false);
+        router.push('/');
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
     }
   };
 
